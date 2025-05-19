@@ -1,26 +1,92 @@
-# Gift List
+# 🎁 Gift List Verification System
 
-To get started with the repository, clone it and then run `npm install` in the top-level directory to install the depedencies.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-There are three folders in this repository:
+This project demonstrates a Merkle Tree-based gift list verification system where a client can prove to a server that they are on the "nice list" without revealing the entire list.
 
-## Client
+**Note**: This project is cloned from [Alchemy Platform's GiftList repository](https://github.com/alchemyplatform/GiftList) and modified for educational purposes.
 
-You can run the client from the top-level directory with `node client/index`. This file is a script which will send an HTTP request to the server.
+## 🚀 Getting Started
 
-Think of the client as the _prover_ here. It needs to prove to the server that some `name` is in the `MERKLE_ROOT` on the server. 
+### Prerequisites
+- Node.js (v14+ recommended)
+- npm (comes with Node.js)
 
-## Server
+### Installation
+1. Clone this repository
+   ```bash
+   git clone https://github.com/Dika1485/giftlist.git
+   ```
+2. Install dependencies
+   ```bash
+   npm install
+   ```
 
-You can run the server from the top-level directory with `node server/index`. This file is an express server which will be hosted on port 1225 and respond to the client's request.
+## 📂 Project Structure
 
-Think of the server as the _verifier_ here. It needs to verify that the `name` passed by the client is in the `MERKLE_ROOT`. If it is, then we can send the gift! 
+```
+gift-list/
+├── client/          # Client-side code (the prover)
+├── server/         # Server-side code (the verifier)
+├── utils/          # Shared utilities
+│   ├── niceList.json       # List of names eligible for gifts
+│   ├── MerkleTree.js      # Merkle Tree implementation
+│   ├── verifyProof.js     # Proof verification logic
+│   └── example.js         # Example usage
+└── README.md       # This file
+```
 
-## Utils
+## 🖥️ Running the System
 
-There are a few files in utils:
+1. **Start the server** (in one terminal)
+   ```bash
+   node server/index.js
+   ```
+   The server will start on port 1225.
 
-- The `niceList.json` which contains all the names of the people who deserve a gift this year (this is randomly generated, feel free to add yourself and others to this list!)
-- The `example.js` script shows how we can generate a root, generate a proof and verify that some value is in the root using the proof. Try it out from the top-level folder with `node/example.js`
-- The `MerkleTree.js` should look familiar from the Merkle Tree module! This one has been modified so you should not have to deal with any crypto type conversion. You can import this in your client/server
-- The `verifyProof.js` should also look familiar. This was the last stage in the module. You can use this function to prove a name is in the merkle root, as show in the example.
+2. **Run the client** (in another terminal)
+   ```bash
+   node client/index.js
+   ```
+   The client will attempt to verify a name from the nice list with the server.
+
+## 🔍 How It Works
+
+### Client (Prover)
+- Generates a Merkle proof for a specific name
+- Sends the proof to the server for verification
+- Receives a response indicating whether verification was successful
+
+### Server (Verifier)
+- Maintains the Merkle root of the nice list
+- Verifies incoming proofs against the root
+- Responds with whether the proof is valid
+
+### Utilities
+- `niceList.json`: Contains all eligible names
+- `MerkleTree.js`: Modified Merkle Tree implementation
+- `verifyProof.js`: Proof verification function
+- `example.js`: Demonstration of generating and verifying proofs
+
+## 🛠️ Customization
+
+1. To add/remove names from the nice list:
+   - Edit `utils/niceList.json`
+   - Restart the server to recompute the Merkle root
+
+2. To test different names:
+   - Modify `client/index.js` to use a different name
+
+## 📚 Learning Resources
+
+This project demonstrates:
+- Merkle Trees and their cryptographic properties
+- Zero-knowledge proof concepts
+- Client-server verification patterns
+- Practical applications of blockchain data structures
+
+Original concept by [Alchemy](https://github.com/alchemyplatform/GiftList).
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
